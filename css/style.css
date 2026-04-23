@@ -438,8 +438,8 @@ body {
 
 .card-flip-back {
     transform: rotateY(180deg);
-    background: #185FA5;
-    border-color: #185FA5;
+    background: #2a7ed1;
+    border-color: #2a7ed1;
     color: #fff;
     justify-content: center;
     font-size: 15px;
