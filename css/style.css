@@ -1,0 +1,511 @@
+/* Базові скидання */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* CSS-змінні (світла / темна тема) */
+:root {
+    --bg: #ffffff;
+    --bg-secondary: #f5f5f3;
+    --text: #1a1a18;
+    --text-muted: #6b6b67;
+    --border: rgba(0, 0, 0, .12);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #1e1e1c;
+        --bg-secondary: #2a2a28;
+        --text: #f0ece4;
+        --text-muted: #8a8a84;
+        --border: rgba(255, 255, 255, .12);
+    }
+}
+
+/* Загальні стилі сторінки */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-secondary);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* Header */
+.site-header {
+    text-align: center;
+    padding: 3.5rem 1rem 2rem;
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 2.5rem;
+}
+
+.site-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    letter-spacing: -.5px;
+}
+
+.site-header p {
+    font-size: 15px;
+    color: var(--text-muted);
+}
+
+/* Сітка посилань */
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 0 1.5rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Базова картка посилання */
+.link-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    background: var(--bg);
+    text-decoration: none;
+    color: var(--text);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .25s;
+    min-height: 72px;
+}
+
+.link-card .icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.link-card .info {
+    flex: 1;
+}
+
+.link-card .info strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.link-card .info span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* 1. Slide fill — зелений фон заїжджає зліва */
+.card-slide .icon {
+    background: #EAF3DE;
+}
+
+.card-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #3B6D11;
+    transform: translateX(-100%);
+    transition: transform .38s cubic-bezier(.4, 0, .2, 1);
+    z-index: 0;
+}
+
+.card-slide:hover::before {
+    transform: translateX(0);
+}
+
+.card-slide:hover {
+    color: #fff;
+    border-color: #3B6D11;
+}
+
+.card-slide:hover .info span {
+    color: #C0DD97;
+}
+
+.card-slide:hover .icon {
+    background: rgba(255, 255, 255, .18);
+}
+
+.card-slide .icon,
+.card-slide .info {
+    position: relative;
+    z-index: 1;
+}
+
+/* 2. Glitch shake — картка тремтить */
+@keyframes glitch {
+
+    0%,
+    100% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-3px, 1px);
+    }
+
+    40% {
+        transform: translate(3px, -1px);
+    }
+
+    60% {
+        transform: translate(-2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+}
+
+.card-glitch .icon {
+    background: #FCEBEB;
+}
+
+.card-glitch:hover {
+    border-color: #E24B4A;
+    animation: glitch .45s steps(1) infinite;
+}
+
+/* 3. Spotlight — промінь слідує за курсором */
+.card-spot .icon {
+    background: #EEEDFE;
+}
+
+.card-spot::after {
+    content: '';
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127, 119, 221, .28) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity .3s;
+    top: var(--y, 50%);
+    left: var(--x, 50%);
+}
+
+.card-spot:hover::after {
+    opacity: 1;
+}
+
+.card-spot:hover {
+    border-color: #7F77DD;
+}
+
+/* 4. Border draw — рамка домальовується */
+.card-border .icon {
+    background: #E1F5EE;
+}
+
+.card-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #1D9E75;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+}
+
+.card-border::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: #1D9E75;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform .35s ease .15s;
+}
+
+.card-border:hover::before {
+    transform: scaleX(1);
+}
+
+.card-border:hover::after {
+    transform: scaleY(1);
+}
+
+.card-border:hover {
+    border-color: #1D9E75;
+}
+
+/* 5. Float pulse — картка злітає і пульсує */
+@keyframes float-pulse {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 0 rgba(186, 117, 23, .25);
+    }
+
+    50% {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 24px rgba(186, 117, 23, .18);
+    }
+}
+
+.card-float .icon {
+    background: #FAEEDA;
+}
+
+.card-float:hover {
+    animation: float-pulse .85s ease infinite;
+    border-color: #BA7517;
+}
+
+/* 6. Icon spin — іконка обертається 360° */
+.card-spin .icon {
+    background: #E6F1FB;
+    transition: transform .55s cubic-bezier(.4, 0, .2, 1);
+}
+
+.card-spin:hover .icon {
+    transform: rotate(360deg);
+}
+
+.card-spin:hover {
+    border-color: #378ADD;
+}
+
+/* 7. Typewriter cursor — миготливий курсор */
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.card-type .icon {
+    background: #FBEAF0;
+}
+
+.card-type:hover .info strong::after {
+    content: '|';
+    animation: blink .55s step-end infinite;
+    color: #D4537E;
+    margin-left: 2px;
+    font-weight: 400;
+}
+
+.card-type:hover {
+    border-color: #D4537E;
+}
+
+/* 8. Scale bounce — пружний відскок */
+@keyframes bounce-in {
+    0% {
+        transform: scale(1.08);
+    }
+
+    50% {
+        transform: scale(.96);
+    }
+
+    100% {
+        transform: scale(1.04);
+    }
+}
+
+.card-bounce .icon {
+    background: #F1EFE8;
+}
+
+.card-bounce:hover {
+    animation: bounce-in .4s ease forwards;
+    border-color: #888780;
+}
+
+/* 9. Diagonal wipe — помаранчевий фон змітає */
+.card-wipe .icon {
+    background: #FAECE7;
+}
+
+.card-wipe::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #D85A30;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    transition: clip-path .42s cubic-bezier(.4, 0, .2, 1);
+    z-index: 0;
+}
+
+.card-wipe:hover::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.card-wipe:hover {
+    color: #fff;
+    border-color: #D85A30;
+}
+
+.card-wipe:hover .info span {
+    color: #F5C4B3;
+}
+
+.card-wipe:hover .icon {
+    background: rgba(255, 255, 255, .16);
+}
+
+.card-wipe .icon,
+.card-wipe .info {
+    position: relative;
+    z-index: 1;
+}
+
+/* 10. Neon pulse — рамка пульсує з сяйвом */
+@keyframes neon-pulse {
+
+    0%,
+    100% {
+        border-color: #534AB7;
+        box-shadow: 0 0 0 0 rgba(83, 74, 183, 0);
+    }
+
+    50% {
+        border-color: #7F77DD;
+        box-shadow: 0 0 0 4px rgba(127, 119, 221, .18);
+    }
+}
+
+.card-neon .icon {
+    background: #EEEDFE;
+}
+
+.card-neon:hover {
+    animation: neon-pulse .9s ease infinite;
+}
+
+/* 11. 3D Flip — картка перекидається */
+.card-flip-wrap {
+    perspective: 600px;
+    border-radius: var(--radius-lg);
+    min-height: 72px;
+}
+
+.card-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .5s cubic-bezier(.4, 0, .2, 1);
+}
+
+.card-flip-wrap:hover .card-flip-inner {
+    transform: rotateY(180deg);
+}
+
+.card-flip-front,
+.card-flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    min-height: 72px;
+}
+
+.card-flip-back {
+    transform: rotateY(180deg);
+    background: #2a7ed1;
+    border-color: #2a7ed1;
+    color: #fff;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.card-flip-front .icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    background: #E6F1FB;
+}
+
+.card-flip-front .info strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.card-flip-front .info span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* 12. Ripple — кола розходяться при кліку */
+@keyframes ripple-anim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.card-ripple {
+    overflow: hidden;
+}
+
+.card-ripple .icon {
+    background: #EAF3DE;
+}
+
+.card-ripple:hover {
+    border-color: #639922;
+}
+
+.ripple-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(99, 153, 34, .2);
+    transform: scale(0);
+    pointer-events: none;
+    animation: ripple-anim .65s linear;
+}
+
+/* Footer */
+.site-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 0.5px solid var(--border);
+    background: var(--bg);
+}
