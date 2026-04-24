@@ -1,0 +1,38 @@
+{
+  "name": "link-kit",
+  "version": "1.0.0",
+  "description": "Демонстраційна сторінка з колекцією стилізованих карток-посилань — кожна з унікальною hover-анімацією на чистому HTML/CSS/JS.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint js/ --ext .js --fix",
+    "lint:check": "eslint js/ --ext .js",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:unit:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:report": "playwright show-report",
+    "test": "npm run test:unit && npm run test:e2e"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anastasiia-tyk/link-kit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anastasiia-tyk/link-kit/issues"
+  },
+  "homepage": "https://github.com/Anastasiia-tyk/link-kit#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@vitest/coverage-v8": "^4.1.5",
+    "jsdom": "^29.0.2",
+    "serve": "^14.2.6",
+    "vitest": "^4.1.5"
+  }
+}
