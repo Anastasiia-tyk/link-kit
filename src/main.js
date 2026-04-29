@@ -1,33 +1,37 @@
 // src/main.js — точка входу Vite
 
-import './style.css';
+import './css/style.css';
 // Імпортуємо реальні функції з вашого utils.js
-import { buildCard, countCards } from './utils.js';
+import { buildCard, countCards } from './js/utils.js';
 
-/**
- * 1. Робота зі змінними оточення
- */
-const appStatus = import.meta.env.VITE_APP_STATUS || 'Unknown';
+const appStatus = import.meta.env.VITE_APP_STATUS || 'Development';
 const appVersion = import.meta.env.VITE_APP_VERSION || '1.0.0';
 
-// Відображення статусу (якщо ви додасте ці елементи в HTML)
-const footer = document.querySelector('.site-footer');
-if (footer) {
-  // Додаємо бейдж статусу та версію до існуючого футера
-  const info = document.createElement('div');
-  info.style.marginTop = '10px';
-  info.innerHTML = `
-    <span class="env-badge">Status: ${appStatus}</span> | 
-    <span id="app-version">v${appVersion}</span>
-  `;
-  footer.appendChild(info);
+// Знаходимо елементи, які вже є в index.html
+const badge = document.getElementById('env-badge');
+const versionDisplay = document.getElementById('app-version');
+
+if (badge) {
+  badge.textContent = appStatus;
+  
+  // Очищаємо старі класи та додаємо потрібний
+  badge.className = ''; 
+  if (appStatus.toLowerCase().includes('prod')) {
+    badge.classList.add('env-production');
+  } else {
+    badge.classList.add('env-development');
+  }
+}
+
+if (versionDisplay) {
+  versionDisplay.textContent = `v${appVersion}`;
 }
 
 /**
  * 2. Ініціалізація існуючої логіки зі script.js
  * (Vite автоматично запустить код з імпортованого script.js)
  */
-import './script.js';
+import './js/script.js';
 
 /**
  * 3. Демонстрація використання бізнес-логіки з utils.js
