@@ -11,7 +11,7 @@ export default [
 
   {
     // Перевіряємо тільки JS файли у папці js/
-    files: ['js/**/*.js'],
+    files: ['src/js/**/*.js', 'src/main.js'],
 
     languageOptions: {
       ecmaVersion: 2022,
