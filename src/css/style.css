@@ -509,3 +509,31 @@ body {
     border-top: 0.5px solid var(--border);
     background: var(--bg);
 }
+
+/* ── Environment badge ── */
+#env-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+/* Синій — розробка */
+#env-badge.env-development {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* Зелений — продакшен */
+#env-badge.env-production {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+#app-version {
+  font-size: 11px;
+  color: var(--text-muted);
+}
