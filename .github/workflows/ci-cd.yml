@@ -1,0 +1,79 @@
+# Назва пайплайну — буде відображатись у GitHub Actions
+name: CI/CD Pipeline
+
+# ─────────────────────────────────────────
+# ТРИГЕРИ — коли запускати пайплайн
+# ─────────────────────────────────────────
+on:
+  # Запуск при push у ці гілки
+  push:
+    branches:
+      - main
+      - develop
+
+  # Запуск при створенні Pull Request до цих гілок
+  pull_request:
+    branches:
+      - main
+      - develop
+
+# ─────────────────────────────────────────
+# ЗАВДАННЯ (JOBS)
+# ─────────────────────────────────────────
+jobs:
+  build-and-test:
+    name: Build and Test
+    # Віртуальна машина — Linux Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Крок 1: Отримати код з репозиторію ──
+      # actions/checkout — вбудований екшен GitHub
+      # Клонує репозиторій на віртуальну машину
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Крок 2: Встановити Node.js ──
+      # Гарантує однакове середовище незалежно від локального ПК
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Кешуємо node_modules для швидкості
+
+      # ── Крок 3: Встановити залежності ──
+      # npm ci = "clean install"
+      # Суворіший за npm install — читає точні версії з package-lock.json
+      # Гарантує відтворюваність білду
+      - name: Install dependencies
+        run: npm ci
+
+      # ── Крок 4: Перевірка лінтером ──
+      # Якщо ESLint знайде помилки — пайплайн зупиниться тут
+      # Неякісний код не пройде далі
+      - name: Run linter
+        run: npm run lint:check
+
+      # ── Крок 5: Запуск Unit тестів ──
+      # Якщо хоч один тест впаде — пайплайн = FAILED (червоний хрестик)
+      - name: Run unit tests
+        run: npm run test:unit
+
+      # ── Крок 6: Продуктова збірка ──
+      # Перевіряємо що Vite може зібрати без помилок
+      # env: передаємо змінні оточення для збірки
+      - name: Build for production
+        run: npm run build
+        env:
+          VITE_APP_STATUS: 'Production Mode'
+          VITE_APP_VERSION: ${{ github.sha }}
+
+      # ── Крок 7: Зберегти артефакт ──
+      # dist/ буде доступний для завантаження у вкладці Actions
+      # Корисно щоб перевірити що зібралось
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7 # Зберігати 7 днів
