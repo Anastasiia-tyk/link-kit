@@ -1,5 +1,7 @@
 // tests/unit/utils.test.js
 import { describe, it, expect, vi } from 'vitest';
+
+// ВИПРАВЛЕНО: Додано /src/ у шлях імпорту
 import {
   getCardClass,
   buildCard,
@@ -8,7 +10,7 @@ import {
   isValidUrl,
   calculateRippleSize,
   calculateRipplePosition,
-} from '../../js/utils.js';
+} from '../../src/js/utils.js'; 
 
 // ── getCardClass ──
 describe('getCardClass', () => {
