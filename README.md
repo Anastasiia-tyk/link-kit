@@ -1,5 +1,9 @@
 # 🔗 Animated Links Kit
 
+[![CI/CD Pipeline](https://github.com/Anastasiia-tyk/link-kit/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Anastasiia-tyk/link-kit/actions/workflows/ci-cd.yml)
+
+> 🌐 **Live Demo:** https://link-kit-nine.vercel.app/
+
 Демонстраційна сторінка з колекцією стилізованих карток-посилань — кожна з унікальною hover-анімацією на чистому HTML/CSS/JS.
 
 ## 💡 Ідея MVP
@@ -15,13 +19,19 @@ typewriter cursor, scale bounce, diagonal wipe, neon pulse, 3D flip і ripple.
 - HTML5
 - CSS3 (Custom Properties, @keyframes, clip-path, perspective)
 - Vanilla JavaScript
+- **Vite** — інструмент збірки та сервер розробки
+- **Vitest** — Unit-тестування бізнес-логіки
+- **Playwright** — E2E тестування інтерфейсу
+- **ESLint + Prettier** — статичний аналіз та форматування коду
+- **GitHub Actions** — CI/CD пайплайн
+- **Vercel** — хостинг та автоматичний деплой
 
 ## 🚀 Як запустити
 
 1. Клонуй репозиторій:
 
 ```bash
-git clone https://github.com/ТВІЙ_НІК/animated-links-kit.git
+git clone https://github.com/Anastasiia-tyk/link-kit.git
 ```
 
 2. Перейди в папку:
@@ -30,18 +40,50 @@ git clone https://github.com/ТВІЙ_НІК/animated-links-kit.git
 cd animated-links-kit
 ```
 
-3. Відкрий `index.html` у браузері — і все готово!
+3. Встанови залежності:
 
-> Не потрібно встановлювати жодних залежностей.
+```bash
+npm install
+```
+
+4. Запусти сервер розробки:
+
+```bash
+npm run dev
+```
+
+Відкрий браузер за адресою `http://localhost:5173`
+
+## 📋 Доступні команди
+
+| Команда             | Опис                         |
+| ------------------- | ---------------------------- |
+| `npm run dev`       | Запуск сервера розробки      |
+| `npm run build`     | Продуктова збірка → `dist/`  |
+| `npm run preview`   | Локальний перегляд збірки    |
+| `npm run lint`      | Перевірка + виправлення коду |
+| `npm run test:unit` | Запуск Unit-тестів           |
+| `npm run test:e2e`  | Запуск E2E тестів            |
+| `npm run test`      | Всі тести разом              |
 
 ## 📁 Структура проєкту
 
-```
 animated-links-kit/
-├── index.html   — розмітка сторінки та картки посилань
-├── styles.css   — всі стилі, анімації та темна тема
-└── script.js    — JS-логіка для Spotlight і Ripple ефектів
-```
+├── .github/
+│ └── workflows/
+│ └── ci-cd.yml — CI/CD пайплайн
+├── css/
+│ └── style.css — стилі, анімації, темна тема
+├── js/
+│ ├── script.js — логіка сторінки
+│ └── utils.js — бізнес-логіка (тестується)
+├── tests/
+│ ├── unit/ — Vitest тести
+│ └── e2e/ — Playwright тести
+├── index.html — розмітка сторінки
+├── vite.config.js — конфігурація збірки
+├── eslint.config.js — правила лінтера
+└── .prettierrc — правила форматування
 
 ## ✨ Анімації
 
