@@ -191,9 +191,28 @@
       </a>
     </main>
 
+    <!-- Feature Flag банер (керується з PostHog) -->
+    <div
+      id="feature-banner"
+      style="
+        display: none;
+        grid-column: 1 / -1;
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        font-size: 14px;
+        color: #0369a1;
+      "
+    >
+      ✨ <strong>Нова функція увімкнена!</strong>
+      Цей банер з'являється завдяки Feature Flag
+      <code>show-extra-info</code> у PostHog. Вимкни прапорець — і він зникне
+      без зміни коду.
+    </div>
+
     <footer class="site-footer">
-      12 унікальних hover-анімацій &nbsp;·&nbsp; HTML / CSS / JS
-      &nbsp;·&nbsp;
+      12 унікальних hover-анімацій &nbsp;·&nbsp; HTML / CSS / JS &nbsp;·&nbsp;
       <span id="env-badge">завантаження...</span>
       &nbsp;
       <span id="app-version"></span>
