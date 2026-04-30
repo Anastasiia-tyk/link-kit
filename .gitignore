@@ -141,3 +141,12 @@ vite.config.ts.timestamp-*
 # Тести та покриття
 playwright-report/
 test-results/
+
+
+# Артефакти збірки — не комітимо!
+dist/
+build/
+
+# Системні файли
+.DS_Store
+Thumbs.db

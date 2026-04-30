@@ -8,8 +8,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint js/ --ext .js --fix",
-    "lint:check": "eslint js/ --ext .js",
+    "lint": "eslint src/js/ --ext .js --fix",
+    "lint:check": "eslint src/js/ --ext .js",
+    "format": "prettier --write \"src/**/*.{js,css,html}\"",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:unit:coverage": "vitest run --coverage",
@@ -29,10 +30,15 @@
   },
   "homepage": "https://github.com/Anastasiia-tyk/link-kit#readme",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.59.1",
     "@vitest/coverage-v8": "^4.1.5",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
     "jsdom": "^29.0.2",
+    "prettier": "^3.8.3",
     "serve": "^14.2.6",
+    "vite": "^8.0.10",
     "vitest": "^4.1.5"
   }
 }
