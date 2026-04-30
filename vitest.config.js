@@ -2,23 +2,28 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // Де знаходиться index.html
   root: '.',
 
+  // 1. ДОДАНО СЕКЦІЮ ТЕСТУВАННЯ
+  test: {
+    // Вказуємо Vitest ігнорувати папку з E2E тестами (Playwright)
+    exclude: [
+      '**/node_modules/**', 
+      '**/dist/**', 
+      '**/tests/e2e/**', // ігноруємо Playwright тести
+      '**/.{idea,git,cache,output,temp}/**'
+    ],
+    // Оточення для тестів, що працюють з DOM
+    environment: 'jsdom',
+    globals: true,
+  },
+
   build: {
-    // Куди класти результат збірки
     outDir: 'dist',
-
-    // Генерувати sourcemaps (для дебагу в продакшені)
     sourcemap: true,
-
-    // Мініфікація через esbuild (найшвидший варіант)
     minify: 'esbuild',
-
     rollupOptions: {
       output: {
-        // Хешовані назви файлів для cache-busting
-        // Наприклад: index-Abc123.js
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]',
