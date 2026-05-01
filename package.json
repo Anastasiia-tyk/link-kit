@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/Anastasiia-tyk/link-kit#readme",
   "dependencies": {
+    "posthog-js": "^1.372.5",
     "vite": "^8.0.10"
   },
   "devDependencies": {
