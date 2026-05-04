@@ -1,8 +1,48 @@
 // src/main.js — точка входу Vite
 
 import './css/style.css';
-import posthog from 'posthog-js'; 
+import posthog from 'posthog-js';
+import * as Sentry from '@sentry/browser';
 import { buildCard, countCards } from './js/utils.js';
+
+/* ══════════════════════════════════════
+   0. ІНІЦІАЛІЗАЦІЯ SENTRY (Лаба 6)
+══════════════════════════════════════ */
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  environment: import.meta.env.VITE_APP_ENVIRONMENT || 'development',
+  release: `link-kit@${import.meta.env.VITE_APP_VERSION || '1.0.0'}`,
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.replayIntegration({ maskAllInputs: true }),
+  ],
+  tracesSampleRate: import.meta.env.PROD ? 0.1 : 1.0,
+  replaysOnErrorSampleRate: 1.0,
+  replaysSessionSampleRate: 0.1,
+  beforeBreadcrumb(breadcrumb) {
+    if (breadcrumb.category === 'console' && breadcrumb.level === 'log') {
+      return null;
+    }
+    return breadcrumb;
+  },
+});
+
+// Контекст користувача
+Sentry.setUser({
+  id:       'student-001',
+  email:    'student@university.edu',
+  username: 'link_kit_user',
+  segment:  'student',
+});
+
+Sentry.setTag('app.version',     import.meta.env.VITE_APP_VERSION || '1.0.0');
+Sentry.setTag('app.environment', import.meta.env.VITE_APP_ENVIRONMENT || 'development');
+
+Sentry.setContext('app_info', {
+  name:        'Link Kit',
+  total_cards: 12,
+  build_time:  new Date().toISOString(),
+});
 
 /* ══════════════════════════════════════
    1. ІНІЦІАЛІЗАЦІЯ POSTHOG
@@ -159,3 +199,76 @@ spotCards.forEach(card => {
     card.style.setProperty('--y', (e.clientY - rect.top) + 'px');
   });
 });
+
+/* ══════════════════════════════════════
+   6. SENTRY DEMO КНОПКИ (Лаба 6)
+══════════════════════════════════════ */
+const breakBtn    = document.getElementById('break-btn');
+const handledBtn  = document.getElementById('handled-error-btn');
+const logoutBtn   = document.getElementById('logout-btn');
+const errorStatus = document.getElementById('error-status');
+
+// Кнопка 1: необроблена помилка
+if (breakBtn) {
+  breakBtn.addEventListener('click', () => {
+    Sentry.addBreadcrumb({
+      message:  'User clicked "Break the world" button',
+      category: 'user.action',
+      level:    'warning',
+      data: { button_id: 'break-btn', timestamp: new Date().toISOString() },
+    });
+    posthog.capture('error_triggered_intentionally', {
+      error_type: 'unhandled_exception',
+      trigger:    'break_the_world_button',
+    });
+    throw new Error(
+      `Sentry Test Error: Link Kit deliberately broken! ` +
+      `User: student@university.edu | Time: ${new Date().toISOString()}`
+    );
+  });
+}
+
+// Кнопка 2: оброблена помилка
+if (handledBtn) {
+  handledBtn.addEventListener('click', () => {
+    try {
+      JSON.parse('{ invalid json :::');
+    } catch (err) {
+      Sentry.addBreadcrumb({
+        message:  'JSON parsing failed in demo',
+        category: 'error.handled',
+        level:    'error',
+        data: { attempted_input: '{ invalid json :::' },
+      });
+      Sentry.captureException(err, {
+        tags:  { error_type: 'json_parse_error', handled: 'true' },
+        extra: { context: 'handled_error_demo' },
+      });
+      Sentry.captureMessage('Handled JSON parse error — demo button clicked', 'warning');
+      if (errorStatus) {
+        errorStatus.textContent = '⚠️ Помилку перехоплено та відправлено в Sentry!';
+        errorStatus.style.color = '#f59e0b';
+        setTimeout(() => { errorStatus.textContent = ''; }, 3000);
+      }
+    }
+  });
+}
+
+// Кнопка 3: logout / очищення контексту
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    Sentry.setUser(null);
+    posthog.reset();
+    if (errorStatus) {
+      errorStatus.textContent = '🚪 Контекст користувача очищено в Sentry та PostHog';
+      errorStatus.style.color = '#6b7280';
+      setTimeout(() => {
+        errorStatus.textContent = '';
+        Sentry.setUser({ id: 'student-001', email: 'student@university.edu', segment: 'student' });
+      }, 3000);
+    }
+  });
+}
+
+// Sentry — підтверджуємо успішний старт
+Sentry.captureMessage('Link Kit initialized successfully', 'info');
