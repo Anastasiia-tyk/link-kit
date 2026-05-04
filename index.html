@@ -189,6 +189,106 @@
           <span>UI дизайн — Ripple ефект</span>
         </div>
       </a>
+
+      <!-- ══ Sentry Demo секція (Лаба 6) ══ -->
+      <div
+        style="
+          grid-column: 1 / -1;
+          background: var(--bg);
+          border: 0.5px solid var(--border);
+          border-radius: 12px;
+          padding: 1rem 1.25rem;
+        "
+      >
+        <p
+          style="
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+          "
+        >
+          🛡️ Error Monitoring Demo (Sentry)
+        </p>
+
+        <p
+          style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px"
+        >
+          Натисни кнопки щоб побачити як Sentry перехоплює помилки в реальному
+          часі
+        </p>
+
+        <!-- Кнопка 1: необроблена помилка -->
+        <button
+          id="break-btn"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+          "
+        >
+          💥 Break the world
+        </button>
+
+        <!-- Кнопка 2: оброблена помилка -->
+        <button
+          id="handled-error-btn"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+          "
+        >
+          ⚠️ Handled Error
+        </button>
+
+        <!-- Кнопка 3: logout / очищення контексту -->
+        <button
+          id="logout-btn"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 8px;
+          "
+        >
+          🚪 Logout (clear user)
+        </button>
+
+        <!-- Статус виконання -->
+        <p
+          id="error-status"
+          style="margin-top: 8px; font-size: 13px; min-height: 20px"
+        ></p>
+      </div>
     </main>
 
     <!-- Feature Flag банер (керується з PostHog) -->
