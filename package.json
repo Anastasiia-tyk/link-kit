@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/Anastasiia-tyk/link-kit#readme",
   "dependencies": {
+    "@sentry/browser": "^10.51.0",
     "posthog-js": "^1.372.5",
     "vite": "^8.0.10"
   },
